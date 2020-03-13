@@ -27,23 +27,39 @@ def get_indices_of_item_weights(weights, length, limit):
     """
     # PLAN
     # loop over weight, put into hash table, key is weight value is index
-    # need to handle double values somehow
-    for i in range(0, length - 1):
-        hash_table_insert(ht, weights[i], i)
+    # need to handle duplicate values somehow
+    for i in range(0, length):
+        weight = weights[i]
+        # If not duplicate simply insert weight as key, index list with one item as value
+        if hash_table_retrieve(ht, weight) is None:
+            # print(f"weight: {weight} ; i: {i}")
+            hash_table_insert(ht, weight, list([i]))
+        # If duplicate append new index to list stored as value and overwrite key/value pair
+        else: 
+            indexList = hash_table_retrieve(ht, weight)
+            # print(f"before indexList:{indexList}")
+            indexList.append(i)
+            # print(f"after indexList:{indexList}")
+            hash_table_insert(ht, weight, indexList)
+
     # loop over hash table (16 indices)
     for weight in weights:
         # check to see if a complementary weight in table
         if hash_table_retrieve(ht, limit - weight) is not None:
-            print(f"Limit: {limit} ; Weight: {weight} ; limit - weight : {limit-weight}")
-            # if complimentary weight exists, see which one is bigger
-            if hash_table_retrieve(ht, weight) >= hash_table_retrieve(ht, limit - weight):
-                bigIndex = hash_table_retrieve(ht, weight)
-                littleIndex = hash_table_retrieve(ht, limit - weight)
+            # print(f"Limit: {limit} ; Weight: {weight} ; limit - weight : {limit-weight}")
+            # if complimentary weights are the same, get both indices from list. Second one will always be bigger.
+            if hash_table_retrieve(ht, weight)[0] == hash_table_retrieve(ht, limit - weight)[0]:
+                bigIndex = hash_table_retrieve(ht, weight)[1]
+                littleIndex = hash_table_retrieve(ht, weight)[0]
+            # if complimentary weight exists, see which index value stored in the 0th position is bigger
+            elif hash_table_retrieve(ht, weight)[0] > hash_table_retrieve(ht, limit - weight)[0]:
+                bigIndex = hash_table_retrieve(ht, weight)[0]
+                littleIndex = hash_table_retrieve(ht, limit - weight)[0]
             else:
-                bigIndex = hash_table_retrieve(ht, limit - weight)
-                littleIndex = hash_table_retrieve(ht, weight)
+                bigIndex = hash_table_retrieve(ht, limit - weight)[0]
+                littleIndex = hash_table_retrieve(ht, weight)[0]
             # return tuple
-            print (f"bigIndex: {bigIndex} ; littleIndex: {littleIndex} ")
+            # print (f"bigIndex: {bigIndex} ; littleIndex: {littleIndex} ")
             return (bigIndex, littleIndex)
     return None
 
