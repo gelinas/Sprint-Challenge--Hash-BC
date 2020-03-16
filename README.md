@@ -24,11 +24,17 @@ This sprint challenge is divided up into three parts:  Hash tables coding, block
 
 Explain in detail the workings of a dynamic array:
 * What is the runtime complexity to access an array, add or remove from the front, and add or remove from the back?
-* What is the worse case scenario if you try to extend the storage size of a dynamic array?
+*ANSWER* Accessing an array is O(1), add or remove from back is also O(1) - constant runtime. If you search, insert, delete, it's linear runtime O(n). Adding to front is an example of an insertion. It's O(n) because you have to make copies of the data to shift it.
 
-Explain how a blockchain is structured. What are the blocks, what is the chain? How is the data organized?
- 
-Explain how proof of work functions. How does it operate. How does this protect the chain from attack. What kind of attack is possible?
+* What is the worse case scenario if you try to extend the storage size of a dynamic array?
+*ANSWER* When you extend the storage size, you have to do a for loop to copy over the old storage to the new memory address. That is an O(n) constant runtime operation.
+
+* Explain how a blockchain is structured. What are the blocks, what is the chain? How is the data organized?
+*ANSWER* Blocks are pieces of data, including transactions, a hash of the previous block, and a cryptographic proof. The cryptographic proof is a piece of data that when added to the previous block hashes to something with the requested number of leading zero's. The chain is how each block immutable links to past blocks through the hashing of previous blocks-- any chance to any block with irreparably alter all future blocks.
+
+* Explain how proof of work functions. How does it operate. How does this protect the chain from attack. What kind of attack is possible?
+*ANSWER* Proof of work function by requiring a difficult cryptographic puzzles to be solved to create new blocks -- namely determining a proof that will hash the old block to the desired new number of leading zeros. Since hash functions have good uniformity, it's impossible to predict or quickly guess or predict what a future proof will be. This prevents the chain from attach by making it extremely improbable an attacker could computer proofs for false transactions faster than the consensus network is computing proofs for valid transactions. If the attacked had over 51% of the computing power dedicated to the network however, this kind of attack would be possible and the chain could be rewritten.
+
 
 ## Project Set Up
 
